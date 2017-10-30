@@ -622,7 +622,7 @@ def showIssue(number=False, repourl=False):
   if issue['assignee']:
     b.append("## Assignee: " + issue["assignee"]["login"].encode(vim.eval("&encoding")))
   else:
-    b.append("## Assignee: ")
+    b.append("## Assignee: " + vim.eval("g:gissues_new_assignee"))
 
   if number == "new":
     b.append("## Milestone: ")
@@ -633,7 +633,11 @@ def showIssue(number=False, repourl=False):
   if issue["labels"]:
     for label in issue["labels"]:
       labelstr += label["name"] + ", "
-  b.append("## Labels: " + labelstr[:-2])
+
+  if number == "new":
+    b.append("## Labels: " + vim.eval("g:gissues_new_label"))
+  else:
+    b.append("## Labels: " + labelstr[:-2])
 
   if number != "new" and "pull_request" in issue:
     b.append("## Branch Name: " + str(pull_request["head"]["ref"]))
